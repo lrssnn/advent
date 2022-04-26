@@ -1,14 +1,20 @@
-﻿using AdventTwentyOne;
+﻿using Advent;
+using AdventTwentyOne;
 
-var start = DateTime.Now;
-var day = new Day1();
-var constructed = DateTime.Now;
-Console.WriteLine($"Construction {(constructed - start).TotalMilliseconds}ms");
-(var part1, var part2) = day.Solve();
-Console.WriteLine($"Part 1: {part1}");
-Console.WriteLine($"Part 2: {part2}");
-day.Verify();
-var end = DateTime.Now;
-Console.WriteLine($"Solve {(end - constructed).TotalMilliseconds}ms");
+
+var days = new Day[] { new Day1("2021/input1"), new Day2("2021/input2") };
+
+Console.WriteLine($"+-----+----------+-----------------+");
+Console.WriteLine($"| Day | Is Valid | Solve Time (ms) |");
+Console.WriteLine($"+-----+----------+-----------------+");
+foreach(Day day in days)
+{
+    var start = DateTime.Now;
+    day.Solve();
+    var end = DateTime.Now;
+    var solveTime = end - start;
+    Console.WriteLine($"| {day.DayName}   | {day.IsValid()}     |       {solveTime.TotalMilliseconds} |");
+}
+Console.WriteLine($"+-----+----------+-----------------+");
 
 
