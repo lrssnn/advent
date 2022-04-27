@@ -10,9 +10,9 @@ namespace AdventTwentyOne;
 
 public class Day2 : Day
 {
-    public override string DayName => "2";
-    public override string Answer1 => "78985";
-    public override string Answer2 => "57DD8";
+    public override string DayName => "02";
+    public override string Answer1 => "1855814";
+    public override string Answer2 => "1845455714";
 
     private List<string> Data { get; set; }
 
@@ -26,60 +26,48 @@ public class Day2 : Day
 
     public override void Solve()
     {
-        var code = "";
-        var current = '5';
-        foreach(var line in Data)
-        {
-            foreach(var c in line)
-            {
-                current = part1Cache[(current, c)];
-            }
-            code += current;
-        }
+        var pos = 0;
+        var depth = 0;
 
-        Result1 = code;
+        foreach (var step in Data)
+            (pos, depth) = ApplyStep(pos, depth, step);
 
-        code = "";
-        current = '5';
-        foreach(var line in Data)
-        {
-            foreach(var c in line)
-            {
-                current = part2Cache[(current, c)];
-            }
-            code += current;
-        }
+        Result1 = (pos * depth).ToString();
 
-        Result2 = code;
+        pos = 0;
+        depth = 0;
+        var aim = 0;
+
+        foreach (var step in Data)
+            (pos, depth, aim) = ApplyStep(pos, depth, aim, step);
+
+        Result2 = (pos * depth).ToString();
+
     }
 
-    private static readonly Dictionary<(char, char), char> part1Cache = new Dictionary<(char, char), char>
+    private static (int pos, int depth) ApplyStep(int pos, int depth, string step)
     {
-        {('1', 'U'), '1' }, {('1', 'D'), '4' }, {('1', 'L'), '1' }, {('1', 'R'), '2' },
-        {('2', 'U'), '2' }, {('2', 'D'), '5' }, {('2', 'L'), '1' }, {('2', 'R'), '3' },
-        {('3', 'U'), '3' }, {('3', 'D'), '6' }, {('3', 'L'), '2' }, {('3', 'R'), '3' },
-        {('4', 'U'), '1' }, {('4', 'D'), '7' }, {('4', 'L'), '4' }, {('4', 'R'), '5' },
-        {('5', 'U'), '2' }, {('5', 'D'), '8' }, {('5', 'L'), '4' }, {('5', 'R'), '6' },
-        {('6', 'U'), '3' }, {('6', 'D'), '9' }, {('6', 'L'), '5' }, {('6', 'R'), '6' },
-        {('7', 'U'), '4' }, {('7', 'D'), '7' }, {('7', 'L'), '7' }, {('7', 'R'), '8' },
-        {('8', 'U'), '5' }, {('8', 'D'), '8' }, {('8', 'L'), '7' }, {('8', 'R'), '9' },
-        {('9', 'U'), '6' }, {('9', 'D'), '9' }, {('9', 'L'), '8' }, {('9', 'R'), '9' },
-    };
+        var parts = step.Split(' ');
+        var amt = int.Parse(parts[1]);
+        return parts[0] switch
+        {
+            "forward" => (pos + amt, depth),
+            "down"    => (pos, depth + amt),
+            "up"      => (pos, depth - amt),
+            _         => throw new Exception("Unrecognised Instruction"),
+        };
+    }
 
-    private static readonly Dictionary<(char, char), char> part2Cache = new Dictionary<(char, char), char>
+    private static (int pos, int depth, int aim) ApplyStep(int pos, int depth, int aim, string step)
     {
-        {('1', 'U'), '1' }, {('1', 'D'), '3' }, {('1', 'L'), '1' }, {('1', 'R'), '1' },
-        {('2', 'U'), '2' }, {('2', 'D'), '6' }, {('2', 'L'), '2' }, {('2', 'R'), '3' },
-        {('3', 'U'), '1' }, {('3', 'D'), '7' }, {('3', 'L'), '2' }, {('3', 'R'), '4' },
-        {('4', 'U'), '4' }, {('4', 'D'), '8' }, {('4', 'L'), '3' }, {('4', 'R'), '4' },
-        {('5', 'U'), '5' }, {('5', 'D'), '5' }, {('5', 'L'), '5' }, {('5', 'R'), '6' },
-        {('6', 'U'), '2' }, {('6', 'D'), 'A' }, {('6', 'L'), '5' }, {('6', 'R'), '7' },
-        {('7', 'U'), '3' }, {('7', 'D'), 'B' }, {('7', 'L'), '6' }, {('7', 'R'), '8' },
-        {('8', 'U'), '4' }, {('8', 'D'), 'C' }, {('8', 'L'), '7' }, {('8', 'R'), '9' },
-        {('9', 'U'), '9' }, {('9', 'D'), '9' }, {('9', 'L'), '8' }, {('9', 'R'), '9' },
-        {('A', 'U'), '6' }, {('A', 'D'), 'A' }, {('A', 'L'), 'A' }, {('A', 'R'), 'B' },
-        {('B', 'U'), '7' }, {('B', 'D'), 'D' }, {('B', 'L'), 'A' }, {('B', 'R'), 'C' },
-        {('C', 'U'), '8' }, {('C', 'D'), 'C' }, {('C', 'L'), 'B' }, {('C', 'R'), 'C' },
-        {('D', 'U'), 'B' }, {('D', 'D'), 'D' }, {('D', 'L'), 'D' }, {('D', 'R'), 'D' },
-    };
+        var parts = step.Split(' ');
+        var amt = int.Parse(parts[1]);
+        return parts[0] switch
+        {
+            "forward" => (pos + amt, depth + (aim * amt), aim),
+            "down"    => (pos, depth, aim + amt),
+            "up"      => (pos, depth, aim - amt),
+            _         => throw new Exception("Unrecognised Instruction"),
+        };
+    }
 }
