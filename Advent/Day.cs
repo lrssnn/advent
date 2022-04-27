@@ -20,7 +20,10 @@ namespace Advent
             using StreamReader sr = File.OpenText(inputFileName);
             Input = sr.ReadToEnd();
         }
-        
+
+        public string Valid1 => Answer1 == Result1 ? "Y" : "N";
+        public string Valid2 => Answer2 == Result2 ? "Y" : "N";
+
         public bool IsValid()
         {
             if (Result1 != Answer1) return false;

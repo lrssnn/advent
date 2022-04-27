@@ -10,7 +10,7 @@ namespace AdventTwentyOne;
 
 public class Day1 : Day
 {
-    public override string DayName => "1";
+    public override string DayName => "01";
     public override string Answer1 => "1393";
     public override string Answer2 => "1359";
 
