@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advent;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,36 @@ using System.Threading.Tasks;
 
 namespace AdventTwentyOne
 {
-    public class Day5
+    public class Day5 : Day
     {
+        public override string DayName => "05";
+        public override string Answer1 => "6841";
+        public override string Answer2 => "19258";
+
+        public List<Line> Lines { get; set; }
+
+        public Day5(string inputFilename) : base(inputFilename)
+        {
+            Lines = FindLines(Input.Split('\n'));
+        }
+
+        public override void Solve()
+        {
+            Result1 = Lines
+                .SelectMany(line => line.CoveredNoDiagonal()) // A flat list of all the covered coordinates, with duplicates
+                .GroupBy(coord => coord) // Duplicates Grouped
+                .Where(group => group.Count() > 1) // Only the groups with more than one coverage
+                .Count() // The score
+                .ToString();
+
+            Result2 = Lines
+                .SelectMany(line => line.Covered()) // A flat list of all the covered coordinates, with duplicates
+                .GroupBy(coord => coord) // Duplicates Grouped
+                .Where(group => group.Count() > 1) // Only the groups with more than one coverage
+                .Count() // The score
+                .ToString();
+        }
+
         public static void Solve1()
         {
             using (StreamReader sr = File.OpenText("input5"))
@@ -47,7 +76,6 @@ namespace AdventTwentyOne
                         new Coord(int.Parse(start[0]), int.Parse(start[1])),
                         new Coord(int.Parse(end[0]), int.Parse(end[1])));
 
-                Console.WriteLine($"{line} : {created}");
                 result.Add(created);
             }
             return result;
@@ -69,6 +97,15 @@ namespace AdventTwentyOne
         public override string ToString()
         {
             return $"{Start} -> {End}";
+        }
+
+        public List<Coord> CoveredNoDiagonal()
+        {
+            if (IsHorizontal)
+                return HorizontalCovered();
+            else if (IsVertical)
+                return VerticalCovered();
+            else return new List<Coord>();
         }
 
         public List<Coord> Covered()

@@ -1,2 +1,4 @@
 bin/
 obj/
+/Advent/Properties
+/.vs/Advent

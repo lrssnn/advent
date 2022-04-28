@@ -2,7 +2,11 @@
 using AdventTwentyOne;
 
 
-var days = new Day[] { new Day1("2021/input1"), new Day2("2021/input2"), new Day3("2021/input3"), new Day4("2021/input4")};
+var constructionStart = DateTime.Now;
+var days = new Day[] { new Day1("2021/input1"), new Day2("2021/input2"), new Day3("2021/input3"), new Day4("2021/input4"), new Day5("2021/input5")};
+var constructionend = DateTime.Now;
+var constructionTime = constructionend - constructionStart;
+Console.WriteLine($"Total construction time {constructionTime.TotalMilliseconds:0.00}ms");
 
 Console.WriteLine($"+-----+---+---+-----------------+");
 Console.WriteLine($"| Day | 1 | 2 | Solve Time (ms) |");
