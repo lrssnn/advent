@@ -2,7 +2,7 @@
 using AdventTwentyOne;
 
 
-var days = new Day[] { new Day1("2021/input1"), new Day2("2021/input2"), new Day3("2021/input3")};
+var days = new Day[] { new Day1("2021/input1"), new Day2("2021/input2"), new Day3("2021/input3"), new Day4("2021/input4")};
 
 Console.WriteLine($"+-----+---+---+-----------------+");
 Console.WriteLine($"| Day | 1 | 2 | Solve Time (ms) |");
