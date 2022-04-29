@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advent;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,32 +7,28 @@ using System.Threading.Tasks;
 
 namespace AdventTwentyOne
 {
-    public class Day6
+    public class Day6 : Day
     {
-        public static void Solve()
+        public override string DayName => "06";
+        public override string Answer1 => "352195";
+        public override string Answer2 => "1600306001288";
+
+        private Fishes Fishes { get; set; }
+
+        public Day6(string inputFilename) : base(inputFilename)
         {
-            using (StreamReader sr = File.OpenText("input6"))
-            {
-                var text= sr.ReadToEnd().Trim();
-                //var fishes = ReadFishes(text);
-                var fishes = new Fishes(text);
-
-                foreach (var turn in Enumerable.Range(1, 256))
-                {
-                    //PrintState(turn, fishes);
-                    //fishes = fishes.SelectMany(fish => fish.Tick()).ToList();
-                    fishes.Tick();
-                    if (turn == 80) PrintState(turn, fishes);
-                }
-
-                //Console.WriteLine(fishes.Count());
-                Console.WriteLine(fishes.States.Sum());
-            }
+            Fishes = new Fishes(Input);
         }
 
-        public static void PrintState(int turn, Fishes fishes)
+        public override void Solve()
         {
-            Console.WriteLine($"{turn}: {fishes.States.Sum()}");
+            foreach (var turn in Enumerable.Range(1, 256))
+            {
+                Fishes.Tick();
+                if (turn == 80) Result1 = Fishes.States.Sum().ToString();
+            }
+
+            Result2 = Fishes.States.Sum().ToString();
         }
     }
 
