@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advent;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,34 +7,29 @@ using System.Threading.Tasks;
 
 namespace AdventTwentyOne
 {
-    public class Day8
+    public class Day8 : Day
     {
-        public static void Solve()
+        public override string DayName => "08";
+        public override string Answer1 => "303";
+        public override string Answer2 => "Unknown";
+
+        private List<Record> Records { get; set; }
+
+        public Day8(string inputFileName): base(inputFileName)
         {
-            using (StreamReader sr = File.OpenText("input8"))
-            {
-                //var textLines = sr.ReadToEnd().Trim().Split('\n');
-                var textLines = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf".Trim().Split('\n');
+            Records = Input.Trim().Split('\n').Select(line => new Record(line)).ToList();
+        }
 
-                var records = textLines.Select(line => new Record(line)).ToList();
-
-                var record = records.First();
-
-                Console.WriteLine(record);
-                Console.WriteLine(record.MappedString());
-                Console.WriteLine(record.DecodedString());
-
-
-
-                var easyCount = records.Sum(r =>
-                    r.Outputs.Count(o =>
-                        o.Length == 2 ||
-                        o.Length == 3 ||
-                        o.Length == 4 ||
-                        o.Length == 7
-                        ));
-                Console.WriteLine(easyCount);
-            }
+        public override void Solve()
+        {
+            var easyCount = Records.Sum(r =>
+                r.Outputs.Count(o =>
+                    o.Length == 2 ||
+                    o.Length == 3 ||
+                    o.Length == 4 ||
+                    o.Length == 7
+                    ));
+            Result1 = easyCount.ToString();
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advent;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,18 +7,19 @@ using System.Threading.Tasks;
 
 namespace AdventTwentyOne
 {
-    public class Day9
+    public class Day9 : Day
     {
-        public List<List<int>> lines;
+        public override string DayName => "09";
+        public override string Answer1 => "603";
+        public override string Answer2 => "Unknown";
 
-        public Day9()
+        private List<List<int>> lines;
+
+        public Day9(string inputFilename) : base(inputFilename)
         {
-            using (StreamReader sr = File.OpenText("input9"))
-            {
-
-                lines = sr.ReadToEnd().Trim().Split('\n').Select(line =>
-                    line.Trim().Select(c => int.Parse(c.ToString())).ToList()
-                    ).ToList();
+            lines = Input.Trim().Split('\n').Select(line =>
+                line.Trim().Select(c => int.Parse(c.ToString())).ToList()
+                ).ToList();
 
                 /*
                 lines = @"2199943210
@@ -26,17 +28,13 @@ namespace AdventTwentyOne
 8767896789
 9899965678".Trim().Split('\n').Select(line => line.Trim().Select(c => int.Parse(c.ToString())).ToList()).ToList();
                 */
-            }
         }
 
-        public void Solve()
+        public override void Solve()
         {
             var lowPoints = GetLowPoints();
-            foreach(var lowPoint in lowPoints)
-            {
-                Console.WriteLine($"{lowPoint.X},{lowPoint.Y}: {lines[lowPoint.X][lowPoint.Y]}");
-            }
 
+            /* Incomplete and throwing part 2
             var basins = lowPoints.Select(lowPoint => FillBasin(lowPoint, new HashSet<Point>()));
 
             foreach(var basin in basins)
@@ -48,13 +46,14 @@ namespace AdventTwentyOne
                 }
                 Console.WriteLine();
             }
-
-            Console.WriteLine(lowPoints.Sum(p => lines[p.X][p.Y] + 1));
             Console.WriteLine(basins
                 .OrderBy(basin => basin.Count)
                 .TakeLast(3)
                 .Aggregate(1, (prod, basin) => prod * basin.Count())
             );
+            */
+
+            Result1 = lowPoints.Sum(p => lines[p.X][p.Y] + 1).ToString();
         }
 
         public List<Point> GetLowPoints()

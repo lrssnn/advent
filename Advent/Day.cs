@@ -18,11 +18,11 @@ namespace Advent
         public Day(string inputFileName)
         {
             using StreamReader sr = File.OpenText(inputFileName);
-            Input = sr.ReadToEnd();
+            Input = sr.ReadToEnd().Trim();
         }
 
-        public string Valid1 => Answer1 == Result1 ? "Y" : "N";
-        public string Valid2 => Answer2 == Result2 ? "Y" : "N";
+        public string Valid1 => Answer1 == Result1 ? "Y" : Answer1 == "Unknown" ? "?" : "N";
+        public string Valid2 => Answer2 == Result2 ? "Y" : Answer2 == "Unknown" ? "?" : "N";
 
         public bool IsValid()
         {

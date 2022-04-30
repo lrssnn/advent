@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advent;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,18 +7,19 @@ using System.Threading.Tasks;
 
 namespace AdventTwentyOne
 {
-    public class Day10
+    public class Day10: Day
     {
+        public override string DayName => "10";
+        public override string Answer1 => "266301";
+        public override string Answer2 => "Unknown";
+
         public List<List<char>> lines;
 
-        public Day10()
+        public Day10(string inputFilename): base(inputFilename)
         {
-            using (StreamReader sr = File.OpenText("input10"))
-            {
-
-                lines = sr.ReadToEnd().Trim().Split('\n').Select(line =>
-                    line.Trim().ToList()
-                    ).ToList();
+            lines = Input.Split('\n').Select(line =>
+                line.Trim().ToList()
+                ).ToList();
 
                 /*
                 lines = @"[({(<(())[]>[[{[]{<()<>>
@@ -31,10 +33,9 @@ namespace AdventTwentyOne
 <{([([[(<>()){}]>(<<{{
 <{([{{}}[<[[[<>{}]]]>[]]".Trim().Split('\n').Select(line => line.Trim().ToList()).ToList();
                 */
-            }
         }
 
-        public void Solve()
+        public override void Solve()
         {
             var corrupts = new List<char>();
             var corruptLines = new List<List<char>>();
@@ -43,28 +44,28 @@ namespace AdventTwentyOne
                 var first = IsCorrupted(line);
                 if (first != '_')
                 {
-                    Console.WriteLine($"{string.Concat(line)} invalid: {first} ({ValueConverter(first)})");
+                    //Console.WriteLine($"{string.Concat(line)} invalid: {first} ({ValueConverter(first)})");
                     corrupts.Add(first);
                     corruptLines.Add(line);
                 }
             }
 
-            Console.WriteLine(corrupts.Sum(ValueConverter));
+            Result1 = corrupts.Sum(ValueConverter).ToString();
 
-            Console.WriteLine(lines.Count());
+            //Console.WriteLine(lines.Count());
             lines = lines.Where(l => !corruptLines.Contains(l)).ToList();
-            Console.WriteLine(lines.Count());
+            //Console.WriteLine(lines.Count());
 
             var completions = lines.Select(l => GetCompletion(l));
 
             foreach (var completer in completions)
             {
-                Console.WriteLine(string.Concat(completer));
+                //Console.WriteLine(string.Concat(completer));
             }
 
             var scores = completions.Select(ValueCompletion).OrderBy(score => score);
             var middleIndex = scores.Count() / 2;
-            Console.WriteLine(scores.ElementAt(middleIndex));
+            //Console.WriteLine(scores.ElementAt(middleIndex));
         }
 
         public List<char> GetCompletion(List<char> l)
