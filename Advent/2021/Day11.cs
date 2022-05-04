@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advent;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace AdventTwentyOne
 {
-    public class Day11
+    public class Day11 : Day
     {
-        public List<List<Octo>> octos;
+        public override string DayName => "11";
+        public override string Answer1 => "1739";
+        public override string Answer2 => "324";
 
-        public Day11()
+        private List<List<Octo>> octos;
+
+        public Day11(string inputFilename) : base(inputFilename)
         {
-            using (StreamReader sr = File.OpenText("input11"))
-            {
-
-                var id = 0;
+            var id = 0;
                 /*
                 lines = sr.ReadToEnd().Trim().Split('\n').Select(line =>
                     line.Trim().ToList()
@@ -34,21 +36,20 @@ namespace AdventTwentyOne
 4846848554
 5283751526".Trim()
                 */
-                octos = sr.ReadToEnd().Trim()
-                    .Split('\n')
-                    .Select((line, i) => 
-                        line.Trim()
-                        .Select((c, j) => 
-                            new Octo(i, j, c.ToString())
-                        )
-                        .ToList()
-                     ).ToList();
+            octos = Input
+                .Split('\n')
+                .Select((line, i) => 
+                    line.Trim()
+                    .Select((c, j) => 
+                        new Octo(i, j, c.ToString())
+                    )
+                    .ToList()
+                 ).ToList();
 
-                Octo.Octos = octos;
-            }
+            Octo.Octos = octos;
         }
 
-        public void Solve()
+        public override void Solve()
         {
             var hundredScore = -1;
             var allFlashedTurn = -1;
@@ -68,23 +69,14 @@ namespace AdventTwentyOne
                     foreach (var octo in row)
                         octo.Reset();
 
-                Console.WriteLine($"Turn {turn}: {Octo.Flashes} total flashes");
                 if (turn == 100)
                 {
                     hundredScore = Octo.Flashes;
                 }
-
-                foreach (var line in octos)
-                {
-                    foreach (var c in line)
-                    {
-                        Console.Write(c);
-                    }
-                    Console.WriteLine();
-                }
             } while (hundredScore == -1 || allFlashedTurn == -1);
-            Console.WriteLine($"Hundred Score = {hundredScore}");
-            Console.WriteLine($"Flash Turn = {allFlashedTurn}");
+
+            Result1 = hundredScore.ToString();
+            Result2 = allFlashedTurn.ToString();
         }
 
         public List<Octo> UpdateNeighbours(int i, int j)
