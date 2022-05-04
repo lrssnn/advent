@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advent;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -7,17 +8,16 @@ using System.Threading.Tasks;
 
 namespace AdventTwentyOne
 {
-    public class Day12
+    public class Day12 : Day
     {
+        public override string DayName => "12";
+        public override string Answer1 => "4885";
+        public override string Answer2 => "117095";
 
-        public Graph graph { get; set; }
+        private Graph graph { get; set; }
 
-        public Day12()
+        public Day12() : base ("2021/input12")
         {
-            using (StreamReader sr = File.OpenText("input12"))
-            {
-
-                var input = sr.ReadToEnd().Trim();
                 /*
                 var input = @"start-A
 start - b
@@ -28,23 +28,18 @@ A - end
 b - end";
                 */
 
-                var lines = input.Split('\n').Select(e => e.Trim());
-                graph = new Graph(lines);
-                //graph.Draw();
-            }
+            var lines = Input.Split('\n').Select(e => e.Trim());
+            graph = new Graph(lines);
+            //graph.Draw();
         }
 
-        public void Solve()
+        public override void Solve()
         {
 
             var paths1 = graph.BuildPaths(false);
             var paths2 = graph.BuildPaths(true);
-            foreach(var path in paths2)
-            {
-                Console.WriteLine(path);
-            }
-            Console.WriteLine($"{paths1.Count} paths total");
-            Console.WriteLine($"{paths2.Count} paths total with returns");
+            Result1 = paths1.Count.ToString();
+            Result2 = paths2.Count.ToString();
         }
     }
 
