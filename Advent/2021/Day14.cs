@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advent;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -7,18 +8,17 @@ using System.Threading.Tasks;
 
 namespace AdventTwentyOne
 {
-    public class Day14
+    public class Day14 : Day
     {
+        public override string DayName => "14";
+        public override string Answer1 => "2223";
+        public override string Answer2 => "2566282754493";
 
-        public string template;
-        public Dictionary<string, (string a, string b)> rules;
+        private string template;
+        private Dictionary<string, (string a, string b)> rules;
 
-        public Day14()
+        public Day14() : base("2021/input14")
         {
-            using (StreamReader sr = File.OpenText("input14"))
-            {
-
-                var input = sr.ReadToEnd().Trim();
                 /*
                 var input = @" NNCB
 
@@ -40,11 +40,10 @@ namespace AdventTwentyOne
                                 CN -> C";
                 */
 
-                var lines = input.Split('\n').Select(e => e.Trim());
+            var lines = Input.Split('\n').Select(e => e.Trim());
 
-                template = lines.First();
-                rules = BuildRules(lines.Skip(2));
-            }
+            template = lines.First();
+            rules = BuildRules(lines.Skip(2));
         }
 
         public Dictionary<string, (string a, string b)> BuildRules(IEnumerable<string> input)
@@ -65,16 +64,15 @@ namespace AdventTwentyOne
             return rules;
         }
 
-        public void Solve()
+        public override void Solve()
         {
-            Console.WriteLine(template);
-
             var (letters, pairs) = CountFreqs(template);
             foreach (var turn in Enumerable.Range(1, 40))
             {
                 (letters, pairs) = ApplyRules(letters, pairs);
-                Console.WriteLine($"After {turn} turns: {Score(letters)}");
+                if (turn == 10) Result1 = Score(letters).ToString();
             }
+            Result2 = Score(letters).ToString();
         }
 
         public (Dictionary<char, long> letters, Dictionary<string, long> pairs) CountFreqs(string input)

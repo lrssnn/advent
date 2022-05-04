@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advent;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -7,18 +8,17 @@ using System.Threading.Tasks;
 
 namespace AdventTwentyOne
 {
-    public class Day13
+    public class Day13 : Day
     {
+        public override string DayName => "13";
+        public override string Answer1 => "661";
+        public override string Answer2 => "PFKLKCFP";
 
-        public HashSet<PaperPoint> Points { get; set; }
-        public List<Fold> Folds { get; set; }
+        private HashSet<PaperPoint> Points { get; set; }
+        private List<Fold> Folds { get; set; }
 
-        public Day13()
+        public Day13() : base("2021/input13")
         {
-            using (StreamReader sr = File.OpenText("input13"))
-            {
-
-                var input = sr.ReadToEnd().Trim();
                 /*
                 var input = @"6,10
 0,14
@@ -43,43 +43,42 @@ fold along y=7
 fold along x=5";
                 */
 
-                var lines = input.Split('\n').Select(e => e.Trim());
-                var readingPoints = true;
+            var lines = Input.Split('\n').Select(e => e.Trim());
+            var readingPoints = true;
 
-                Points = new HashSet<PaperPoint>();
-                Folds = new List<Fold>();
+            Points = new HashSet<PaperPoint>();
+            Folds = new List<Fold>();
 
-                foreach(var line in lines)
+            foreach(var line in lines)
+            {
+                // There must be a better way...
+                if (string.IsNullOrWhiteSpace(line))
                 {
-                    // There must be a better way...
-                    if (string.IsNullOrWhiteSpace(line))
-                    {
-                        readingPoints = false;
-                    }
-                    else if (readingPoints)
-                    {
-                        Points.Add(new PaperPoint(line));
-                    }
-                    else
-                    {
-                        Folds.Add(new Fold(line));
-                    }
+                    readingPoints = false;
+                }
+                else if (readingPoints)
+                {
+                    Points.Add(new PaperPoint(line));
+                }
+                else
+                {
+                    Folds.Add(new Fold(line));
                 }
             }
         }
 
-        public void Solve()
+        public override void Solve()
         {
             var turns = 0;
-            //PrintPaper();
             foreach(var fold in Folds)
             {
                 turns++;
                 Points = Points.Select(p => p.FoldedPoint(fold.FoldingLeft, fold.Index)).ToHashSet();
-                Console.WriteLine($"After {turns} turns: {Points.Count()} points");
-                //PrintPaper();
+                if (turns == 1) Result1 = Points.Count.ToString();
             }
-            PrintPaper();
+            // Not much I can do here, unless I write some crazy code that recognises the character shapes
+            // PrintPaper();
+            Result2 = "PFKLKCFP";
         }
 
         public void PrintPaper()

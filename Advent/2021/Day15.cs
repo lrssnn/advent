@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advent;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -7,17 +8,16 @@ using System.Threading.Tasks;
 
 namespace AdventTwentyOne
 {
-    public class Day15
+    public class Day15 : Day
     {
+        public override string DayName => "15";
+        public override string Answer1 => "673";
+        public override string Answer2 => "2893";
 
-        List<Node> Nodes = new List<Node>();
+        private List<Node> Nodes = new List<Node>();
 
-        public Day15()
+        public Day15() : base("2021/input15")
         {
-            using (StreamReader sr = File.OpenText("input15"))
-            {
-
-                var input = sr.ReadToEnd().Trim();
                 /*
                 var input = @"1163751742
                               1381373672
@@ -31,10 +31,9 @@ namespace AdventTwentyOne
                               2311944581";
                 */
 
-                var lines = input.Split('\n').Select(e => e.Trim());
+            var lines = Input.Split('\n').Select(e => e.Trim());
 
-                Nodes = BuildNodes(lines.ToList());
-            }
+            Nodes = BuildNodes(lines.ToList());
         }
 
         public List<Node> BuildNodes(List<string> input)
@@ -55,14 +54,15 @@ namespace AdventTwentyOne
             return output;
         }
 
-        public void Solve()
+        public override void Solve()
         {
             var smallCost = GetPathCost(Nodes, Nodes.First(), Nodes.Last());
-            Console.WriteLine($"{smallCost}");
 
             var bigNodes = Embiggen(Nodes);
             var bigCost = GetPathCost(bigNodes, bigNodes.First(), bigNodes.Last());
-            Console.WriteLine(bigCost);
+
+            Result1 = smallCost.ToString();
+            Result2 = bigCost.ToString();
         }
 
         public int GetPathCost(List<Node> nodes, Node source, Node target)
