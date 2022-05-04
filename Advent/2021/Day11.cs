@@ -15,7 +15,7 @@ namespace AdventTwentyOne
 
         private List<List<Octo>> octos;
 
-        public Day11(string inputFilename) : base(inputFilename)
+        public Day11() : base("2021/input11")
         {
             var id = 0;
                 /*

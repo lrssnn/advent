@@ -3,8 +3,7 @@ using AdventTwentyOne;
 
 
 var constructionStart = DateTime.Now;
-var days = new Day[] { new Day1("2021/input1"), new Day2("2021/input2"), new Day3("2021/input3"), new Day4("2021/input4"), new Day5("2021/input5"),
-new Day6("2021/input6"), new Day7("2021/input7"), new Day8("2021/input8"), new Day9("2021/input9"), new Day10("2021/input10"), new Day11("2021/input11")};
+var days = new Day[] { new Day1(), new Day2(), new Day3(), new Day4(), new Day5(), new Day6(), new Day7(), new Day8(), new Day9(), new Day10(), new Day11()};
 var constructionend = DateTime.Now;
 var constructionTime = constructionend - constructionStart;
 Console.WriteLine($"Total construction time {constructionTime.TotalMilliseconds:0.00}ms");

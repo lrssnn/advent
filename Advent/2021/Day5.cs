@@ -15,7 +15,7 @@ namespace AdventTwentyOne
 
         public List<Line> Lines { get; set; }
 
-        public Day5(string inputFilename) : base(inputFilename)
+        public Day5() : base("2021/input5")
         {
             Lines = FindLines(Input.Split('\n'));
         }

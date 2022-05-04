@@ -15,7 +15,7 @@ namespace AdventTwentyOne
 
         private Fishes Fishes { get; set; }
 
-        public Day6(string inputFilename) : base(inputFilename)
+        public Day6() : base("2021/input6")
         {
             Fishes = new Fishes(Input);
         }

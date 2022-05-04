@@ -15,7 +15,7 @@ namespace AdventTwentyOne
 
         private List<Record> Records { get; set; }
 
-        public Day8(string inputFileName): base(inputFileName)
+        public Day8(): base("2021/input8")
         {
             Records = Input.Trim().Split('\n').Select(line => new Record(line)).ToList();
         }

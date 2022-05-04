@@ -10,7 +10,7 @@ namespace AdventTwentyOne
 
         private List<Crab> Crabs { get; set; }
 
-        public Day7(string inputFilename) : base(inputFilename)
+        public Day7() : base("2021/input7")
         {
             Crabs = Input.Split(',').Select(s => new Crab(int.Parse(s))).ToList();
         }

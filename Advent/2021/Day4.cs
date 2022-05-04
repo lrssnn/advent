@@ -16,7 +16,7 @@ namespace AdventTwentyOne
         private List<Board> Boards { get; set; }
         private List<int> Numbers { get; set; }
 
-        public Day4(string inputFileName) : base(inputFileName)
+        public Day4() : base("2021/input4")
         {
             var lines = Input.Split('\n');
             Numbers = lines[0].Split(',').Select(s => int.Parse(s)).ToList();

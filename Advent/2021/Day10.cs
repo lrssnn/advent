@@ -15,7 +15,7 @@ namespace AdventTwentyOne
 
         public List<List<char>> lines;
 
-        public Day10(string inputFilename): base(inputFilename)
+        public Day10(): base("2021/input10")
         {
             lines = Input.Split('\n').Select(line =>
                 line.Trim().ToList()

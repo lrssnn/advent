@@ -16,7 +16,7 @@ public class Day3 : Day
 
     private List<string> Data { get; set; }
 
-    public Day3(string inputFileName) : base(inputFileName)
+    public Day3() : base("2021/input3")
     {
         Data = Input.Trim()
             .Split("\n")
