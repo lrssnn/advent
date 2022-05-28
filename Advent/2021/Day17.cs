@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advent;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -7,36 +8,33 @@ using System.Threading.Tasks;
 
 namespace AdventTwentyOne
 {
-    public class Day17
+    public class Day17 : Day
     {
+
+        public override string DayName => "17";
+        public override string Answer1 => "3160";
+        public override string Answer2 => "1928";
 
         public Area Target { get; set; }
 
-        public Day17()
+        public Day17() : base("2021/input17")
         {
-            using (StreamReader sr = File.OpenText("input17"))
-            {
-
-                var input = sr.ReadToEnd().Trim();
                 //var input = @"target area: x=20..30, y=-10..-5"; // Highest y 45 (vel 6,9)
 
-                var parts = input.Split(' ');
-                var xrange = parts[2][2..^1].Split("..");
-                var yrange = parts[3][2..].Split("..");
+            var parts = Input.Split(' ');
+            var xrange = parts[2][2..^1].Split("..");
+            var yrange = parts[3][2..].Split("..");
 
-                var xMin = int.Parse(xrange[0]);
-                var xMax = int.Parse(xrange[1]);
-                var yMin = int.Parse(yrange[0]);
-                var yMax = int.Parse(yrange[1]);
+            var xMin = int.Parse(xrange[0]);
+            var xMax = int.Parse(xrange[1]);
+            var yMin = int.Parse(yrange[0]);
+            var yMax = int.Parse(yrange[1]);
 
-                Target = new Area(xMin, xMax, yMin, yMax);
-            }
+            Target = new Area(xMin, xMax, yMin, yMax);
         }
 
-        public void Solve()
+        public override void Solve()
         {
-            Console.WriteLine($"{Target.XMin}..{Target.XMax}, {Target.YMin}..{Target.YMax}");
-            Console.WriteLine(Target.Contains(new PointVel(25, -7, 0, 0)));
             // Define the search space
             var xMin = 1;
             var xSteps = 1000;
@@ -64,7 +62,8 @@ namespace AdventTwentyOne
                 }
             }
 
-            Console.WriteLine($"Found {solutions.Count} solutions");
+            Result1 = solutions.Max(solution => solution.Max(point => point.Y)).ToString();
+            Result2 = solutions.Count.ToString();
         }
 
         public List<PointVel> PathOf(PointVel vel)
