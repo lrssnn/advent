@@ -5,7 +5,9 @@ using AdventTwentyOne;
 var constructionStart = DateTime.Now;
 var days = new Day[] { 
     new Day1(), new Day2(), new Day3(), new Day4(), new Day5(), new Day6(), new Day7(), new Day8(), new Day9(), new Day10(), new Day11(),
-    new Day12(), new Day13(), new Day14(), new Day15(),
+    new Day12(), new Day13(), new Day14(), 
+    // Disabled because SUPREMELY slow new Day15(),
+    new Day16()
 };
 var constructionend = DateTime.Now;
 var constructionTime = constructionend - constructionStart;

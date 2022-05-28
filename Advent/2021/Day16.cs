@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advent;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -7,17 +8,18 @@ using System.Threading.Tasks;
 
 namespace AdventTwentyOne
 {
-    public class Day16
+    public class Day16 : Day
     {
+
+        public override string DayName => "16";
+        public override string Answer1 => "889";
+        public override string Answer2 => "739303923668";
+
 
         public string Binary { get; set; }
 
-        public Day16()
+        public Day16() : base("2021/input16")
         {
-            using (StreamReader sr = File.OpenText("input16"))
-            {
-
-                var input = sr.ReadToEnd().Trim();
                 //var input = @"D2FE28"; // Literal 2021 version 6
                 //var input = @"38006F45291200"; // Operator Length Type
                 //var input = @"EE00D40C823060"; // Operator count Type
@@ -26,8 +28,7 @@ namespace AdventTwentyOne
                 
                 //var input = @"C200B40A82"; // Evaluate 3
 
-                Binary = ToBinary(input);
-            }
+            Binary = ToBinary(Input);
         }
 
         public string ToBinary(string hex)
@@ -60,12 +61,12 @@ namespace AdventTwentyOne
             return binary;
         }
 
-        public void Solve()
+        public override void Solve()
         {
             //Console.WriteLine(Binary);
             (var packet, _) = Packet.ParsePacket(Binary);
-            Console.WriteLine(packet.Score);
-            Console.WriteLine(packet.Evaluate());
+            Result1 = packet.Score.ToString();
+            Result2 = packet.Evaluate().ToString();
         }
     }
 
