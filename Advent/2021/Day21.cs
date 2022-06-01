@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Advent;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -7,8 +8,12 @@ using System.Threading.Tasks;
 
 namespace AdventTwentyOne
 {
-    public class Day21
+    public class Day21 : Day
     {
+
+        public override string DayName => "21";
+        public override string Answer1 => "605070";
+        public override string Answer2 => "218433063958910";
 
         public static readonly Dictionary<int, int> ScoreWeights = new()
         {
@@ -23,38 +28,31 @@ namespace AdventTwentyOne
         public Ring Ring { get; set; }
         public GameStateNode Root { get; set; }
 
-        public Day21()
+        public Day21() : base("2021/input21")
         {
-            using (StreamReader sr = File.OpenText("input21"))
-            {
-
-                var input = sr.ReadToEnd().Trim();
-
                 /*
                 var input = @"Player 1 starting position: 4
                               Player 2 starting position: 8";
                 */
 
-                var lines = input.Split("\n").Select(line => line.Trim()).ToList();
+            var lines = Input.Split("\n").Select(line => line.Trim()).ToList();
 
-                int p1 = int.Parse(lines[0][^1].ToString());
-                int p2 = int.Parse(lines[1][^1].ToString());
-                Ring = new Ring(p1, p2, new DDice());
-                Root = new GameStateNode(0, 0, p1, p2);
-            }
+            int p1 = int.Parse(lines[0][^1].ToString());
+            int p2 = int.Parse(lines[1][^1].ToString());
+            Ring = new Ring(p1, p2, new DDice());
+            Root = new GameStateNode(0, 0, p1, p2);
         }
 
-        public void Solve()
+        public override void Solve()
         {
-            Console.WriteLine(Ring.P1.Location);
-            Console.WriteLine(Ring.P2.Location);
-            Console.WriteLine(Ring.PlayGame(1000));
+            //Console.WriteLine(Ring.P1.Location);
+            //Console.WriteLine(Ring.P2.Location);
+            //Console.WriteLine(Ring.PlayGame(1000));
+            Result1 = Ring.PlayGame(1000).ToString();
 
-            var start = DateTime.Now;
-            Console.WriteLine(CountWinners(Root, true));
-            var end = DateTime.Now;
-            Console.WriteLine(end - start);
-            Console.WriteLine((double)CacheHits / (double)(CacheHits + CacheMiss));
+            //Console.WriteLine(CountWinners(Root, true));
+            //Console.WriteLine((double)CacheHits / (double)(CacheHits + CacheMiss));
+            Result2 = CountWinners(Root, true).p1.ToString();
         }
 
         public static (long p1, long p2) CountWinners(GameStateNode node, bool p1Turn)
