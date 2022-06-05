@@ -11,12 +11,13 @@ namespace AdventTwentyOne
     {
         public override string DayName => "08";
         public override string Answer1 => "303";
-        public override string Answer2 => "Unknown";
+        public override string Answer2 => "961734";
 
         private List<Record> Records { get; set; }
 
         public Day8(): base("2021/input8")
         {
+            //Records = new List<Record> { new Record("acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf") };
             Records = Input.Trim().Split('\n').Select(line => new Record(line)).ToList();
         }
 
@@ -30,6 +31,63 @@ namespace AdventTwentyOne
                     o.Length == 7
                     ));
             Result1 = easyCount.ToString();
+
+            var total = 0;
+            foreach(var record in Records)
+            {
+                var mappings = GenerateMappings(record.Inputs);
+                var resultString = string.Concat(record.Outputs.Select(e => mappings[e]));
+                var result = int.Parse(resultString);
+                total += result;
+            }
+            Result2 = total.ToString();
+        }
+
+        static Dictionary<string, char> GenerateMappings(List<string> inputs)
+        {
+            // First, find the known mappings, based on those characters with unique numbers of inputs
+            var one = inputs.Single(e => e.Length == 2);
+            var four = inputs.Single(e => e.Length == 4);
+            var seven = inputs.Single(e => e.Length == 3);
+            var eight = inputs.Single(e => e.Length == 7);
+
+            // We can identify 'f' as well, it is only missing from one of the inputs
+            // This seems like a crazy way to calculate this but I like it
+            var f = "abcdefg".Select(e => (e, inputs.Count(input => !input.Contains(e)))).Single(pair => pair.Item2 == 1).e;
+
+            // 'c' is the other character in '1'
+            var c = one.Single(e => e != f);
+
+            // Identify 2, its the one missing f
+            var two = inputs.Single(e => !e.Contains(f));
+
+            var fiveLongs = inputs.Where(e => e.Length == 5);
+            var three = fiveLongs.Single(e => e.Contains(c) && e != two);
+            var five = fiveLongs.Single(e => !e.Contains(c));
+
+            var e = "abcdefg".Single(e => two.Contains(e) && !three.Contains(e) && !five.Contains(e));
+
+            var sixLongs = inputs.Where(input => input.Length == 6);
+            var six = sixLongs.Single(input => !input.Contains(c));
+            var nine = sixLongs.Single(input => !input.Contains(e));
+
+            var mappings = new Dictionary<string, char>
+            {
+                {one, '1'},
+                {two, '2'},
+                {three, '3'},
+                {four, '4'},
+                {five, '5'},
+                {six, '6'},
+                {seven, '7'},
+                {eight, '8'},
+                {nine, '9'},
+            };
+
+            var zero = inputs.Single(e => !mappings.ContainsKey(e));
+            
+            mappings[zero] = '0';
+            return mappings;
         }
     }
 
@@ -45,104 +103,10 @@ namespace AdventTwentyOne
             var parts = init.Split(" | ");
             Inputs = parts[0].Split(' ').ToList();
             Outputs = parts[1].Split(' ').ToList();
-            //Console.WriteLine($"{init} -> {this}");
-        }
 
-        public string MapString(string input)
-        {
-            var mapping = GetMapping();
-            return string.Concat(input.Select(c => mapping.ContainsKey(c) ? mapping[c] : '?'));
-        }
-
-        public int DecodeString(string input)
-        {
-            return Standard.Mapping[string.Concat(input.OrderBy(c => c))];
-        }
-
-        public Dictionary<char, char> GetMapping()
-        {
-            var mapping = new Dictionary<char, char>();
-            // 2 length tells us digit 1: cf
-            var two = All.FirstOrDefault(code => code.Length == 2);
-            if(two != null)
-            {
-                mapping[two[0]] = 'c';
-                mapping[two[1]] = 'f';
-            }
-            // 3 length tells us digit 7: acf
-            var three = All.FirstOrDefault(code => code.Length == 3);
-            if(three != null)
-            {
-                mapping[three[0]] = 'a';
-                mapping[three[1]] = 'c';
-                mapping[three[2]] = 'f';
-            }
-            // 4 length tells us digit 4: bcdf
-            var four = All.FirstOrDefault(code => code.Length == 4);
-            if(four != null)
-            {
-                mapping[four[0]] = 'b';
-                mapping[four[1]] = 'c';
-                mapping[four[2]] = 'd';
-                mapping[four[3]] = 'f';
-            }
-            // 7 length tells us digit 8: abcdefg
-            var seven = All.FirstOrDefault(code => code.Length == 7);
-            if(seven != null)
-            {
-                mapping[seven[0]] = 'a';
-                mapping[seven[1]] = 'b';
-                mapping[seven[2]] = 'c';
-                mapping[seven[3]] = 'd';
-                mapping[seven[4]] = 'e';
-                mapping[seven[5]] = 'f';
-                mapping[seven[6]] = 'g';
-            }
-
-            //PrintMapping(mapping);
-            return mapping;
-        }
-
-        public string DecodedString()
-        {
-            var str = "";
-            foreach (var input in Inputs.Select(MapString).Select(DecodeString))
-            {
-                str += input;
-                str += ' ';
-            }
-            str += "| ";
-            foreach (var output in Outputs.Select(MapString).Select(DecodeString))
-            {
-                str += output;
-                str += ' ';
-            }
-            return str;
-        }
-
-        public static void PrintMapping<K, V>(Dictionary<K, V> mapping)
-        {
-            foreach(var pair in mapping)
-            {
-                Console.WriteLine($"{pair.Key} -> {pair.Value}");
-            }
-        }
-
-        public string MappedString()
-        {
-            var str = "";
-            foreach (var input in Inputs.Select(MapString))
-            {
-                str += input;
-                str += ' ';
-            }
-            str += "| ";
-            foreach (var output in Outputs.Select(MapString))
-            {
-                str += output;
-                str += ' ';
-            }
-            return str;
+            // Sort the lists so we have consistency
+            Inputs = Inputs.Select(e => string.Concat(e.OrderBy(e => e))).ToList();
+            Outputs = Outputs.Select(e => string.Concat(e.OrderBy(e => e))).ToList();
         }
 
         public override string ToString()
@@ -161,22 +125,5 @@ namespace AdventTwentyOne
             }
             return str;
         }
-    }
-
-    public static class Standard
-    {
-        public static readonly Dictionary<string, int> Mapping = new()
-        {
-            {"abcefg", 0 },
-            {"cf", 1 },
-            {"acdeg", 2 },
-            {"acdfg", 3 },
-            {"bcdf", 4 },
-            {"abdfg", 5 },
-            {"abdefg", 6 },
-            {"acf", 7 },
-            {"abcdefg", 8 },
-            {"abcdfg", 9 },
-        };
     }
 }
