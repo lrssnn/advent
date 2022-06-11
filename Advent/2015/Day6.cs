@@ -146,6 +146,7 @@ public class Day6
                 {
                     "on" => Operation.On,
                     "off" => Operation.Off,
+                    _ => throw new Exception("Unexpected input"),
                 };
                 parts = parts[2..];
             }

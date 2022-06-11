@@ -21,7 +21,8 @@ public class Day24Slow
         {
             var input = sr.ReadToEnd();
 
-            var input2 = @"1
+            /*
+            var input = @"1
 2
 3
 4
@@ -31,6 +32,7 @@ public class Day24Slow
 9
 10
 11";
+*/
 
             Weights = input.Trim().Split("\n").Select(s => s.Trim()).Select(s => int.Parse(s)).ToList();
             Target = Weights.Sum() / 3;

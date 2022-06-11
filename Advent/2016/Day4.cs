@@ -16,10 +16,12 @@ public class Day4
         using (StreamReader sr = File.OpenText("2016/input4"))
         {
             var input = sr.ReadToEnd().Trim();
-            var input1 = @"aaaaa-bbb-z-y-x-123[abxyz]
+            /*
+            var input = @"aaaaa-bbb-z-y-x-123[abxyz]
                             a-b-c-d-e-f-g-h-987[abcde]
                             not-a-real-room-404[oarel]
                             totally-real-room-200[decoy]";
+            */
             RoomCodes = input.Split('\n').Select(s => s.Trim()).Select(s => new RoomCode(s)).ToList();
         }
     }
@@ -46,7 +48,7 @@ public class Day4
         public string Name { get; set; }
         public int SectorId { get; set; }
         public List<char> Checksum { get; set; }
-        public Dictionary<char, int> Frequencies { get; set; }
+        public Dictionary<char, int>? Frequencies { get; set; }
 
         public RoomCode(string s)
         {
@@ -65,6 +67,7 @@ public class Day4
                     Checksum = subParts[1][..^1].ToCharArray().ToList();
                 }
             }
+            if(Checksum == null) throw new Exception("Bad RoomCode");
             Name = Name[..^1]; // We will have added an additional trailing dash
         }
 

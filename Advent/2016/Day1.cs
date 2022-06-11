@@ -17,7 +17,7 @@ public class Day1
         {
 
             var input = sr.ReadToEnd().Trim();
-            var input1 = "R8, R4, R4, R8";
+            //var input = "R8, R4, R4, R8";
             Instructions = input.Split(", ").Select(s => s.Trim()).Select(s => new Instruction(s)).ToList();
         }
     }
@@ -51,7 +51,8 @@ public class Day1
             Console.WriteLine($"{instruction.D}{instruction.Magnitude}: { location}");
         }
         Console.WriteLine(Math.Abs(location.Item1) + Math.Abs(location.Item2));
-        Console.WriteLine(Math.Abs(winner.Value.Item1) + Math.Abs(winner.Value.Item2));
+        if(winner != null)
+            Console.WriteLine(Math.Abs(winner.Value.Item1) + Math.Abs(winner.Value.Item2));
     }
 
     public Direction Turn(Direction facing, bool right)
@@ -65,6 +66,7 @@ public class Day1
                 Direction.South => Direction.West,
                 Direction.West => Direction.North,
                 Direction.East => Direction.South,
+                _ => throw new Exception("Unexpected input"),
             };
         }
         else
@@ -75,6 +77,7 @@ public class Day1
                 Direction.South => Direction.East,
                 Direction.West => Direction.South,
                 Direction.East => Direction.North,
+                _ => throw new Exception("Unexpected input"),
             };
         }
     }
@@ -87,6 +90,7 @@ public class Day1
             Direction.East => (location.x + mag, location.y),
             Direction.South => (location.x, location.y - mag),
             Direction.West => (location.x - mag, location.y),
+            _ => throw new Exception("Unexpected input"),
         };
     }
 

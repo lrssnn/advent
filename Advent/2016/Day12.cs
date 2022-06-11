@@ -17,12 +17,14 @@ public class Day12
         using (StreamReader sr = File.OpenText("2016/input12"))
         {
             var input = sr.ReadToEnd().Trim();
-            var input1 = @"cpy 41 a
+            /*
+            var input = @"cpy 41 a
                             inc a
                             inc a
                             dec a
                             jnz a 2
                             dec a";
+            */
             Input = input.Split('\n').Select(s => s.Trim()).Select(s => new Instruction(s)).ToList();
         }
     }
@@ -92,28 +94,28 @@ public class Day12
 
         private void ProcessCpy(Instruction instruction)
         {
-            var value = instruction.SourceRegister.HasValue ? Registers[instruction.SourceRegister.Value] : instruction.SourceValue.Value;
-            Registers[instruction.DestRegister.Value] = value;
+            var value = instruction.SourceRegister.HasValue ? Registers[instruction.SourceRegister.Value] : instruction.SourceValue!.Value;
+            Registers[instruction.DestRegister!.Value] = value;
             PC++;
         }
 
         private void ProcessInc(Instruction instruction)
         {
-            Registers[instruction.DestRegister.Value] += 1;
+            Registers[instruction.DestRegister!.Value] += 1;
             PC++;
         }
 
         private void ProcessDec(Instruction instruction)
         {
-            Registers[instruction.DestRegister.Value] -= 1;
+            Registers[instruction.DestRegister!.Value] -= 1;
             PC++;
         }
 
         private void ProcessJnz(Instruction instruction)
         {
-            var value = instruction.SourceRegister.HasValue ? Registers[instruction.SourceRegister.Value] : instruction.SourceValue.Value;
+            var value = instruction.SourceRegister.HasValue ? Registers[instruction.SourceRegister.Value] : instruction.SourceValue!.Value;
             if (value != 0)
-                PC += instruction.Offset.Value;
+                PC += instruction.Offset!.Value;
             else
                 PC++;
         }
@@ -178,14 +180,15 @@ public class Day12
                 InstructionType.Inc => $"inc {DestLabel}",
                 InstructionType.Dec => $"dec {DestLabel}",
                 InstructionType.Jnz => $"jnz {SourceLabel} {Offset}",
+                _ => throw new Exception("Unexpected input"),
             };
 
 
-        private string SourceLabel => SourceRegister.HasValue ? RegisterLabel(SourceRegister.Value) : SourceValue.ToString();
+        private string SourceLabel => SourceRegister.HasValue ? RegisterLabel(SourceRegister.Value) : SourceValue.ToString() ?? "";
         private string DestLabel => RegisterLabel(DestRegister);
 
-        private static string RegisterLabel(int? i) => i switch { 0 => "a" , 1 => "b", 2 => "c", 3 => "d"};
-        private static int RegisterIndex(string s) => s switch { "a" => 0, "b" => 1, "c" => 2, "d" => 3 };
+        private static string RegisterLabel(int? i) => i switch { 0 => "a" , 1 => "b", 2 => "c", 3 => "d", _ => ""};
+        private static int RegisterIndex(string s) => s switch { "a" => 0, "b" => 1, "c" => 2, "d" => 3, _ => -1 };
 
         private static InstructionType GetInstructionType(string s) =>
             s switch
@@ -194,6 +197,7 @@ public class Day12
                 "inc" => InstructionType.Inc,
                 "dec" => InstructionType.Dec,
                 "jnz" => InstructionType.Jnz,
+                _ => throw new Exception("Unexpected input"),
             };
     }
 

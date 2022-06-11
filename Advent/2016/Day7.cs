@@ -16,10 +16,12 @@ public class Day7
     {
         using StreamReader sr = File.OpenText("2016/input7");
         var input = sr.ReadToEnd().Trim();
-        var input1 = @"abba[mnop]qrst
+        /*
+        var input = @"abba[mnop]qrst
                             abcd[bddb]xyyx
                             aaaa[qwer]tyui
                             ioxxoj[asdfgh]zxcvbn";
+        */
         Input = input.Split('\n').Select(s => s.Trim()).ToArray();
     }
 

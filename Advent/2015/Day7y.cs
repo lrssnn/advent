@@ -92,13 +92,14 @@ public class Day7
             Instruction.Operation.LSHIFT => (ushort)(a << b),
             Instruction.Operation.RSHIFT => (ushort)(a >> b),
             Instruction.Operation.ASSIGN => a,
+            _ => throw new Exception("Unexpected input"),
         };
     }
 
     public class Instruction
     {
         public string OpA { get; set; }
-        public string OpB { get; set; }
+        public string? OpB { get; set; }
         public string Destination { get; set; }
         public Operation Op { get; set; }
 

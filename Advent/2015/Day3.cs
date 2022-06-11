@@ -67,6 +67,7 @@ public class Day3
             '<' => (x - 1, y),
             '^' => (x, y + 1),
             'v' => (x, y - 1),
+            _ => throw new Exception("Unexpected input"),
         };
     }
 }

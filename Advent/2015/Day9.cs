@@ -112,7 +112,7 @@ public class Day9
             {
                 edgeToNode = edges.First(e => (e.From == lastNode && e.To == node) || (e.From == node && e.To == lastNode));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // There is no path to this node
                 continue;

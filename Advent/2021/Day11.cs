@@ -17,7 +17,6 @@ namespace AdventTwentyOne
 
         public Day11() : base("2021/input11")
         {
-            var id = 0;
                 /*
                 lines = sr.ReadToEnd().Trim().Split('\n').Select(line =>
                     line.Trim().ToList()

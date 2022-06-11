@@ -38,7 +38,7 @@ public class Day21
         TheShop.Rings.Add((new Ring(0, 2), 40));
         TheShop.Rings.Add((new Ring(0, 3), 80));
 
-        Boss = new Unit("Boss", 104, 8, 1, null);
+        Boss = new Unit("Boss", 104, 8, 1, Shop.None);
         BasePlayer = new Unit("Player", 100, 0, 0, TheShop);
     }
 
@@ -234,5 +234,7 @@ public class Day21
             Armor = copy.Armor.ToList();
             Rings = copy.Rings.ToList();
         }
+        
+        public static Shop None => new Shop();
     }
 }

@@ -17,7 +17,8 @@ public class Day6
         using (StreamReader sr = File.OpenText("2016/input6"))
         {
             var input = sr.ReadToEnd().Trim();
-            var input1 = @"eedadn
+            /*
+            var input = @"eedadn
                             drvtee
                             eandsr
                             raavrd
@@ -33,6 +34,7 @@ public class Day6
                             vrdear
                             dvrsen
                             enarar";
+            */
             Input = input.Split('\n').Select(s => s.Trim()).ToArray();
         }
     }

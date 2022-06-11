@@ -65,7 +65,6 @@ namespace AdventTwentyOne
         public char[][] MoveEast(char[][] lines)
         {
             var result = new char[lines.Length][];
-            var changed = false;
             for (int i = 0; i < lines.Length; i++)
             {
                 var resLine = new char[lines[i].Length];

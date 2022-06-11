@@ -35,6 +35,7 @@ public class Day1
             {
                 '(' => 1,
                 ')' => -1,
+                _ => throw new Exception("Unexpected input"),
             };
         return count;
     }
@@ -48,6 +49,7 @@ public class Day1
             {
                 '(' => 1,
                 ')' => -1,
+                _ => throw new Exception("Unexpected input"),
             };
             if(count == -1) return i;
         }

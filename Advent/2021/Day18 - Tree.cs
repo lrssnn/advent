@@ -115,7 +115,7 @@ namespace AdventTwentyOne
         public bool ExplodeLeft()
         {
             // We know we should only explode pairs of values
-            var leftVal = LeftNumber.Value;
+            var leftVal = LeftNumber!.Value;
 
             // Find the first of our parents which is a Right, that means it has a Left sibling
             var firstRightParent = FirstRightParent();
@@ -126,7 +126,7 @@ namespace AdventTwentyOne
             var leftSibling = firstRightParent.LeftNumber;
 
             // Dig down the right side of that left sibling's children to find the first value
-            var adjacentValue = leftSibling.FindValueChildRight();
+            var adjacentValue = leftSibling!.FindValueChildRight();
 
             adjacentValue.Value += leftVal;
             return true;
@@ -135,7 +135,7 @@ namespace AdventTwentyOne
         public bool ExplodeRight()
         {
             // We know we should only explode pairs of values
-            var rightVal = RightNumber.Value;
+            var rightVal = RightNumber!.Value;
 
             // Find the first of our parents which is a Right, that means it has a Left sibling
             var firstLeftParent = FirstLeftParent();
@@ -157,12 +157,14 @@ namespace AdventTwentyOne
             // Looking for the lowest level parent who has a right child? 
             // What do we do if we hit the root?
             if (RightNumber != null) return RightNumber;
-            return Parent.RightNumber;
+            if (Parent?.RightNumber != null) return Parent.RightNumber;
+            throw new Exception("Bad Situation?");
         }
 
         public SnailNumberTree FirstRightParent() 
         {
             var candidate = Parent;
+            if(candidate == null) throw new Exception("Bad Situation");
             while (candidate.IsLeft ?? true)
             {
                 if (candidate.Parent == null) return candidate;
@@ -174,6 +176,7 @@ namespace AdventTwentyOne
         public SnailNumberTree FirstLeftParent() 
         {
             var candidate = Parent;
+            if(candidate == null) throw new Exception("Bad Situation");
             while (!candidate.IsLeft ?? true)
             {
                 if (candidate.Parent == null) return candidate;
@@ -203,7 +206,7 @@ namespace AdventTwentyOne
             return candidate;
         }
 
-        public SnailNumberTree GetExplodeCandidate()
+        public SnailNumberTree? GetExplodeCandidate()
         {
             if (LeftNumber != null)
             {
@@ -226,7 +229,7 @@ namespace AdventTwentyOne
         public override string ToString()
         {
             if (Value != null)
-                return Value.ToString();
+                return Value.Value.ToString();
 
             string result = "[";
             

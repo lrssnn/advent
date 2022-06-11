@@ -17,10 +17,12 @@ public class Day2
         {
 
             var input = sr.ReadToEnd().Trim();
-            var input1 = @"ULL
+            /*
+            var input = @"ULL
                             RRDDD
                             LURDL
                             UUUUD";
+            */
             Codes = input.Split("\n").Select(s => s.Trim()).Select(s => new Code(s)).ToList();
         }
     }
@@ -154,6 +156,7 @@ public class Day2
             'R' => Direction.Right,
             'D' => Direction.Down,
             'L' => Direction.Left,
+            _ => throw new Exception("Unexpected input"),
         };
     }
 

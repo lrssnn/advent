@@ -56,6 +56,7 @@ namespace AdventTwentyOne
                     'D' => "1101",
                     'E' => "1110",
                     'F' => "1111",
+                    _ => throw new Exception("Unexpected input"),
                 };
             }
             return binary;
@@ -101,6 +102,7 @@ namespace AdventTwentyOne
                 PacketType.Greater => SubPackets[0].Evaluate() > SubPackets[1].Evaluate() ? 1 : 0,
                 PacketType.Less => SubPackets[0].Evaluate() < SubPackets[1].Evaluate() ? 1 : 0,
                 PacketType.Equal => SubPackets[0].Evaluate() == SubPackets[1].Evaluate() ? 1 : 0,
+                _ => throw new Exception("Unexpected input"),
             };
         }
 

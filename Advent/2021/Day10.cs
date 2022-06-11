@@ -82,8 +82,7 @@ namespace AdventTwentyOne
                 {
                     var expected = GetExpected(stack.Pop());
                     if (c == expected) continue;
-                    // This should be impossible
-                    return null;
+                    throw new Exception("This should be impossible");
                     // We've reached the end of the line, build the completion from the contents of the stack
                 }
             }

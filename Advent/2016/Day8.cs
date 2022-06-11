@@ -18,10 +18,12 @@ public class Day8
     {
         using StreamReader sr = File.OpenText("2016/input8");
         var input = sr.ReadToEnd().Trim();
-        var input1 = @"rect 3x2
+        /*
+        var input = @"rect 3x2
                        rotate column x=1 by 1
                        rotate row y=0 by 4
                        rotate column x=1 by 1";
+        */
         X = 7;
         Y = 3;
         X = 50;

@@ -8,8 +8,8 @@ namespace Advent
         public abstract string Answer1 { get; }
         public abstract string Answer2 { get; }
 
-        public string Result1 { get; set; }
-        public string Result2 { get; set; }
+        public string? Result1 { get; set; }
+        public string? Result2 { get; set; }
 
         public string Input { get; set; }
 
