@@ -2,7 +2,7 @@
 using AdventTwentyOne;
 
 /*
-var day = new Day8();
+var day = new Day9();
 day.Solve();
 Console.WriteLine($"{day.Valid1} | {day.Valid2}");
 */
