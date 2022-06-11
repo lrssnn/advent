@@ -11,18 +11,14 @@ namespace AdventTwentyOne
     {
         public override string DayName => "10";
         public override string Answer1 => "266301";
-        public override string Answer2 => "Unknown";
+        public override string Answer2 => "3404870164";
 
         public List<List<char>> lines;
 
         public Day10(): base("2021/input10")
         {
-            lines = Input.Split('\n').Select(line =>
-                line.Trim().ToList()
-                ).ToList();
-
-                /*
-                lines = @"[({(<(())[]>[[{[]{<()<>>
+            /*
+                Input = @"[({(<(())[]>[[{[]{<()<>>
 [(()[<>])]({[<{<<[]>>(
 {([(<{}[<>[]}>{[]{[(<()>
 (((({<>}<{<{<>}{[]{[]{}
@@ -31,8 +27,12 @@ namespace AdventTwentyOne
 {<[[]]>}<{[{[{[]{()[[[]
 [<(<(<(<{}))><([]([]()
 <{([([[(<>()){}]>(<<{{
-<{([{{}}[<[[[<>{}]]]>[]]".Trim().Split('\n').Select(line => line.Trim().ToList()).ToList();
-                */
+<{([{{}}[<[[[<>{}]]]>[]]";
+            */
+
+            lines = Input.Split('\n').Select(line =>
+                line.Trim().ToList()
+                ).ToList();
         }
 
         public override void Solve()
@@ -44,7 +44,6 @@ namespace AdventTwentyOne
                 var first = IsCorrupted(line);
                 if (first != '_')
                 {
-                    //Console.WriteLine($"{string.Concat(line)} invalid: {first} ({ValueConverter(first)})");
                     corrupts.Add(first);
                     corruptLines.Add(line);
                 }
@@ -52,20 +51,13 @@ namespace AdventTwentyOne
 
             Result1 = corrupts.Sum(ValueConverter).ToString();
 
-            //Console.WriteLine(lines.Count());
             lines = lines.Where(l => !corruptLines.Contains(l)).ToList();
-            //Console.WriteLine(lines.Count());
 
             var completions = lines.Select(l => GetCompletion(l));
 
-            foreach (var completer in completions)
-            {
-                //Console.WriteLine(string.Concat(completer));
-            }
-
             var scores = completions.Select(ValueCompletion).OrderBy(score => score);
             var middleIndex = scores.Count() / 2;
-            //Console.WriteLine(scores.ElementAt(middleIndex));
+            Result2 = scores.ElementAt(middleIndex).ToString();
         }
 
         public List<char> GetCompletion(List<char> l)
@@ -158,9 +150,9 @@ namespace AdventTwentyOne
             };
         }
 
-        public static int ValueCompletion(List<char> completion)
+        public static long ValueCompletion(List<char> completion)
         {
-            var score = 0;
+            long score = 0;
             foreach (char c in completion)
             {
                 score *= 5;
